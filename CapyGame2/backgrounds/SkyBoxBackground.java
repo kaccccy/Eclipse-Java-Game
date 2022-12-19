@@ -15,7 +15,6 @@ public class SkyBoxBackground implements Background {
 
 		try {
 			this.sky = ImageIO.read(new File("res/KJA/ocean.png"));
-		
 
 		}
 		catch (IOException e) {

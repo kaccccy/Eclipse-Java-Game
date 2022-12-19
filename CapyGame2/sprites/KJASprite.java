@@ -132,7 +132,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		double velocityY = 0;
 
 		//LEFT
-		if (keyboard.keyDown(37)) {
+		if (keyboard.keyDown(65)) {
 			width = 50;
 			velocityX = -VELOCITY;
 			setAnimationFrame(animationFrame + 1);
@@ -143,7 +143,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		}
 
 		// RIGHT
-		else if (keyboard.keyDown(39)) {
+		else if (keyboard.keyDown(68)) {
 			width = 50;
 			velocityX += VELOCITY;
 			setAnimationFrame(animationFrame + 1);
@@ -153,7 +153,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		}
 
 		//UP
-		else if (keyboard.keyDown(38)) {
+		else if (keyboard.keyDown(87)) {
 			width = 25;
 			velocityY = -VELOCITY;	
 			setAnimationFrame(animationFrame + 1);
@@ -163,7 +163,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		}
 
 		// DOWN
-		else if (keyboard.keyDown(40)) {
+		else if (keyboard.keyDown(83)) {
 			width = 25;
 			velocityY += VELOCITY;	
 			setAnimationFrame(animationFrame + 1);
@@ -334,7 +334,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 
 	public void getImageForAnimationFrame(KeyboardInput keyboard) {
 
-		if (keyboard.keyDown(37)) {
+		if (keyboard.keyDown(65)) {
 			// player is moving left
 			try {
 				image = ImageIO.read(new File("res/capy/left/capy_left_walk_" + animationFrame + ".png"));
@@ -342,7 +342,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			catch (IOException e) {
 				System.out.println(e.toString());
 			}
-		} else if (keyboard.keyDown(39)) {
+		} else if (keyboard.keyDown(68)) {
 			// player is moving right
 			try {
 				image = ImageIO.read(new File("res/capy/right/capy_right_walk_" + animationFrame + ".png"));
@@ -350,7 +350,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			catch (IOException e) {
 				System.out.println(e.toString());
 			}
-		} else if (keyboard.keyDown(38)) {
+		} else if (keyboard.keyDown(87)) {
 			// player is moving up
 			try {
 				image = ImageIO.read(new File("res/capy/up/capy_up_walk_" + animationFrame + ".png"));
@@ -358,7 +358,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			catch (IOException e) {
 				System.out.println(e.toString());
 			}
-		} else if (keyboard.keyDown(40)) {
+		} else if (keyboard.keyDown(83)) {
 			// player is moving down
 			try {
 				image = ImageIO.read(new File("res/capy/down/capy_down_walk_" + animationFrame + ".png"));

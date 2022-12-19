@@ -242,7 +242,7 @@ public class AnimationFrame extends JFrame {
 		if (keyboard.keyDown(79) && isPaused ) {
 			btnPauseRun_mouseClicked(null);
 		}
-		if (keyboard.keyDown(112)) {
+	/*	if (keyboard.keyDown(112)) {
 			scale *= 1.01;
 		}
 		if (keyboard.keyDown(113)) {
@@ -261,7 +261,7 @@ public class AnimationFrame extends JFrame {
 		if (keyboard.keyDown(88)) {
 			screenCenterY += 1;
 		}
-		
+		*/
 	}
 
 	class DrawPanel extends JPanel {
