@@ -92,7 +92,7 @@ public class AnimationFrame extends JFrame {
 		panel.setLayout(null);
 		panel.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		getContentPane().add(panel, BorderLayout.CENTER);
-
+/*
 		btnPauseRun = new JButton("||");
 		btnPauseRun.addMouseListener(new MouseAdapter() {
 			@Override
@@ -106,7 +106,7 @@ public class AnimationFrame extends JFrame {
 		btnPauseRun.setFocusable(false);
 		getContentPane().add(btnPauseRun);
 		getContentPane().setComponentZOrder(btnPauseRun, 0);
-
+*/
 		lblTop = new JLabel("Time: ");
 		lblTop.setForeground(Color.WHITE);
 		lblTop.setFont(new Font("Consolas", Font.BOLD, 20));
@@ -206,7 +206,7 @@ public class AnimationFrame extends JFrame {
 
 	private void updateControls() {
 		
-		this.lblTop.setText(String.format("Time: %9.3f;  centerX: %5d; centerY: %5d;  scale: %3.3f", elapsed_time / 1000.0, screenCenterX, screenCenterY, scale));
+		this.lblTop.setText(String.format("Time: %4.3f", elapsed_time / 1000.0));
 		this.lblBottom.setText(Integer.toString(universeLevel));
 		if (universe != null) {
 			this.lblBottom.setText(universe.toString());
@@ -222,7 +222,7 @@ public class AnimationFrame extends JFrame {
 		elapsed_time += actual_delta_time;
 
 	}
-
+/*
 	protected void btnPauseRun_mouseClicked(MouseEvent arg0) {
 		if (isPaused) {
 			isPaused = false;
@@ -233,16 +233,16 @@ public class AnimationFrame extends JFrame {
 			this.btnPauseRun.setText(">");
 		}
 	}
-
+*/
 	private void handleKeyboardInput() {
-		
+		/*
 		if (keyboard.keyDown(80) && ! isPaused) {
 			btnPauseRun_mouseClicked(null);	
 		}
 		if (keyboard.keyDown(79) && isPaused ) {
 			btnPauseRun_mouseClicked(null);
 		}
-	/*	if (keyboard.keyDown(112)) {
+		if (keyboard.keyDown(112)) {
 			scale *= 1.01;
 		}
 		if (keyboard.keyDown(113)) {
