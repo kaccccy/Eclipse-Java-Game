@@ -36,7 +36,7 @@ public class CollisionDetection {
 	}
 
 	public static boolean overlaps(DisplayableSprite spriteA, DisplayableSprite spriteB, double deltaAX, double deltaAY) {
-		
+
 		return overlaps(
 				spriteA.getMinX() + deltaAX, 
 				spriteA.getMinY() + deltaAY, 
@@ -59,7 +59,7 @@ public class CollisionDetection {
 
 		return (overlapX && overlapY);
 	}
-	
+
 	public static boolean inside(DisplayableSprite spriteA, DisplayableSprite spriteB) {
 		return inside(
 				spriteA.getMinX(), 
@@ -73,7 +73,7 @@ public class CollisionDetection {
 	}
 
 	public static boolean inside(DisplayableSprite spriteA, DisplayableSprite spriteB, double deltaAX, double deltaAY) {
-		
+
 		return inside(
 				spriteA.getMinX() + deltaAX, 
 				spriteA.getMinY() + deltaAY, 
@@ -84,7 +84,7 @@ public class CollisionDetection {
 				spriteB.getMaxX(), 
 				spriteB.getMaxY());		
 	}
-	
+
 	public static boolean inside(double leftA, double topA, double rightA, double bottomA, double leftB, double topB, double rightB, double bottomB) {
 		boolean insideX = ((leftB <= leftA) && (rightA <= rightB));
 		boolean insideY = ((topB <= topA) && (bottomA <= bottomB));
@@ -95,7 +95,7 @@ public class CollisionDetection {
 			return false;	    	
 		}
 	}	
-	
+
 	public static boolean covers (DisplayableSprite spriteA, DisplayableSprite spriteB) {
 		//A cover B <-->  B inside A
 		return inside(spriteB, spriteA);
@@ -106,16 +106,16 @@ public class CollisionDetection {
 		//offset is equivalent
 		return inside(spriteB, spriteA, deltaAX, deltaAY);
 	}
-	
+
 	public static boolean covers (double leftA, double topA, double rightA, double bottomA, double leftB, double topB, double rightB, double bottomB) {
 		//A cover B <-->  B inside A
 		return inside(leftB, topB, rightB, bottomB, leftA, topA, rightA, bottomA);
 	}
-	
+
 	public static double overlap(double minA, double maxA,double minB, double maxB) {
 		double widthA = maxA - minA;
 		double widthB = maxB - minB;
-		
+
 		//A is to left of B or A is to right of B
 		if ((maxA <= minB) || (minA >= maxB)) {
 			return 0;
@@ -141,11 +141,11 @@ public class CollisionDetection {
 		}
 		else {
 			//there should not be a case here!
-//			System.out.println("!overlapX - unexpected case");
+			//			System.out.println("!overlapX - unexpected case");
 			return 0;
 		}
 	}
-	
+
 	public static boolean pixelBasedOverlaps(DisplayableSprite spriteA, DisplayableSprite spriteB) {
 		return pixelBasedOverlaps(spriteA, spriteB, 0, 0);
 	}
@@ -155,18 +155,18 @@ public class CollisionDetection {
 		if (overlaps(spriteA, spriteB, deltaAX, deltaAY) == false) {
 			return false;
 		}
-		
+
 		BufferedImage bufferedA = (BufferedImage) spriteA.getImage();
 		BufferedImage bufferedB = (BufferedImage) spriteB.getImage();
-		
+
 		int offsetX = (int) (spriteB.getMinX() - (spriteA.getMinX() + deltaAX));
 		int offsetY = (int) (spriteB.getMinY() - (spriteA.getMinY() + deltaAY));
-		
+
 		int left = Math.max(0, (int) (offsetX));
 		int top =  Math.max(0, (int) (offsetY));
 		int right = (int) (spriteA.getWidth() - Math.max(0, spriteA.getMaxX() + deltaAX - spriteB.getMaxX()));
 		int bottom = (int) (spriteA.getHeight() - Math.max(0, spriteA.getMaxY() + deltaAY - spriteB.getMaxY()));
-		
+
 		double scaleXA = bufferedA.getHeight() / (float)spriteA.getWidth();
 		double scaleYA = bufferedA.getHeight() / (float)spriteA.getHeight();
 		double scaleXB = bufferedB.getHeight() /  (float)spriteB.getWidth();
@@ -187,16 +187,16 @@ public class CollisionDetection {
 				}
 			}
 		}	
-		
+
 		return false;
-				
+
 	}
 
 	public void calculate2DBounce(VirtualSprite twoDBounce, DisplayableSprite sprite, ArrayList<DisplayableSprite> barriers, double velocityX, double velocityY, long actual_delta_time ) {
 		calculate2DBounce(twoDBounce, sprite, barriers, velocityX,  velocityY,  actual_delta_time, null);
 	}
 
-	
+
 	public VirtualSprite calculate2DBounce(VirtualSprite bounce, DisplayableSprite sprite, ArrayList<DisplayableSprite> barriers, double velocityX, double velocityY, long actual_delta_time, Class type) {
 
 		if (bounce == null) {
@@ -217,18 +217,18 @@ public class CollisionDetection {
 		//regular motion
 		bounce.centerX += movementX;
 		bounce.centerY += movementY;
-		
+
 		for (DisplayableSprite barrier : barriers) {
-						
+
 			if ( (sprite == barrier) || (type != null) && (barrier.getClass().equals(type) == false)) {
 				continue;				
 			}
-						
+
 			//collision for sprite's current position
 			boolean doesCollide = overlaps(sprite, barrier, 0, 0);
 			//collision for sprite's next position
 			boolean willCollide = overlaps(sprite, barrier, movementX, movementY);
-			
+
 			//is already colliding!
 			if (doesCollide) {
 				//determine distance of overlap in both dimensions with current position of A
@@ -290,15 +290,15 @@ public class CollisionDetection {
 						bounce.centerY = leadingEdge + (sprite.getWidth() / 2);
 						bounce.velocityY = (velocityY * bounceFactorY * -1);
 					}
-					
+
 				}
 			}
 			//will not collide
 			else {
 			}
 		}
-	
+
 		return bounce;
-		
+
 	}
 }

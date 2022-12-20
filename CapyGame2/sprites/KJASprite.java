@@ -21,6 +21,10 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	private boolean isAtExit = false;
 	private String proximityMessage = "";
 	private int animationFrame = 0;
+	private int leftFrames = 15; //TODO Make left, up and down frames consist of 20 frames just like right
+	private int rightFrames = 20;
+	private int upFrames = 15;
+	private int downFrames = 15;
 
 
 	public KJASprite(double centerX, double centerY) {
@@ -136,7 +140,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			width = 50;
 			velocityX = -VELOCITY;
 			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= getNumLeftFrames()) {
+			if (animationFrame >= leftFrames) {
 				animationFrame = 1;
 			}
 
@@ -147,7 +151,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			width = 50;
 			velocityX += VELOCITY;
 			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= getNumRightFrames()) {
+			if (animationFrame >= rightFrames) {
 				animationFrame = 1;
 			}
 		}
@@ -157,7 +161,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			width = 25;
 			velocityY = -VELOCITY;	
 			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= getNumLeftFrames()) {
+			if (animationFrame >= upFrames) {
 				animationFrame = 1;
 			}
 		}
@@ -167,7 +171,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			width = 25;
 			velocityY += VELOCITY;	
 			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= getNumRightFrames()) {
+			if (animationFrame >= downFrames) {
 				animationFrame = 1;
 			}
 		}
@@ -178,15 +182,15 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		double deltaX = actual_delta_time * 0.001 * velocityX;
 		double deltaY = actual_delta_time * 0.001 * velocityY;
 
-		boolean collidingWithKJA = checkCollisionWithKJA(universe.getSprites(), deltaX, deltaY);
+		//boolean collidingWithKJA = checkCollisionWithKJA(universe.getSprites(), deltaX, deltaY);
 		boolean collidingBarrierX = checkCollisionWithBarrier(universe.getSprites(), deltaX, 0);
 		boolean collidingBarrierY = checkCollisionWithBarrier(universe.getSprites(), 0, deltaY);
-		//		boolean checkProximity = checkProximity(universe.getSprites());
+		//boolean checkProximity = checkProximity(universe.getSprites());
 
-		if (collidingBarrierX == false || collidingWithKJA == false) {
+		if (collidingBarrierX == false /*|| collidingWithKJA == false*/) {
 			this.centerX += deltaX;
 		}
-		if (collidingBarrierY == false || collidingWithKJA == false) {
+		if (collidingBarrierY == false /*|| collidingWithKJA == false*/) {
 			this.centerY += deltaY;
 		}
 		/*
@@ -218,7 +222,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		}		
 		return colliding;		
 	}
-
+	/*
 	private boolean checkCollisionWithKJA(ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
 
 		//deltaX and deltaY represent the potential change in position
@@ -236,7 +240,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		}		
 		return colliding;		
 	}
-	/*
+
 	private void checkCoversCoin(ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
 
 		for (DisplayableSprite sprite : sprites) {
@@ -309,19 +313,19 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	} 
 
 	public int getNumRightFrames() {
-		return 15;
+		return rightFrames;
 	}
 
 	public int getNumLeftFrames() {
-		return 15;
+		return leftFrames; 
 	}
 
 	public int getNumUpFrames() {
-		return 5;
+		return upFrames;
 	}
 
 	public int getNumDownFrames() {
-		return 5;
+		return downFrames;
 	}
 
 	public void setAnimationFrame(int frame) {

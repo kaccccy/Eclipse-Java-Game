@@ -24,10 +24,10 @@ public class KJABackground implements Background {
 		{0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0},
 		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
 		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
+		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,3,0},
+		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,3,0},
+		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,3,0},
+		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,3,0},
 		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
 		{0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
@@ -40,7 +40,7 @@ public class KJABackground implements Background {
 			this.grass = ImageIO.read(new File("res/KJA/grass.png"));
 			this.water = ImageIO.read(new File("res/KJA/water.png"));
 			this.sand = ImageIO.read(new File("res/KJA/sand.png"));
-			this.sandyGrass = ImageIO.read(new File("res/KJA/sandy_grass.png")); //TODO make sandy grass
+			//this.sandyGrass = ImageIO.read(new File("res/KJA/sandy_grass.png")); //TODO make sandy grass
 		}
 		catch (IOException e) {
 			System.out.println(e.toString());
@@ -142,7 +142,7 @@ public class KJABackground implements Background {
 		// ignore
 
 	}
-	
+
 	public int[][] getMap() {
 		return map;
 	}

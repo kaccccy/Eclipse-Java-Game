@@ -27,7 +27,7 @@ public class SkyBoxBackground implements Background {
 		int x = (col * backgroundWidth);
 		int y = (row * backgroundHeight);
 		Tile newTile = null;
-		
+
 		newTile = new Tile(sky, x, y, backgroundWidth, backgroundHeight, false);
 
 		return newTile;
@@ -52,8 +52,8 @@ public class SkyBoxBackground implements Background {
 	}
 	@Override
 	public int getRow(double y) {
-	int row = 0;
-		
+		int row = 0;
+
 		if (backgroundHeight != 0) {
 			row = (int) (y / backgroundHeight);
 			if (y < 0) {
