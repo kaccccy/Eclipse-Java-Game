@@ -141,7 +141,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			velocityX = -VELOCITY;
 			setAnimationFrame(animationFrame + 1);
 			if (animationFrame >= leftFrames) {
-				animationFrame = 0;
+				animationFrame = 1;
 			}
 
 		}
@@ -152,7 +152,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			velocityX += VELOCITY;
 			setAnimationFrame(animationFrame + 1);
 			if (animationFrame >= rightFrames) {
-				animationFrame = 0;
+				animationFrame = 1;
 			}
 		}
 
@@ -162,7 +162,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			velocityY = -VELOCITY;	
 			setAnimationFrame(animationFrame + 1);
 			if (animationFrame >= upFrames) {
-				animationFrame = 0;
+				animationFrame = 1;
 			}
 		}
 
@@ -172,7 +172,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			velocityY += VELOCITY;	
 			setAnimationFrame(animationFrame + 1);
 			if (animationFrame >= downFrames) {
-				animationFrame = 0;
+				animationFrame = 1;
 			}
 		}
 
