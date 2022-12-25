@@ -8,23 +8,29 @@ import javax.imageio.ImageIO;
 public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSprite {
 
 	private static Image image;	
+
 	private double centerX = 25;
 	private double centerY = 25;
 	private double width = 50;
 	private double height = 41;
+
 	private boolean dispose = false;	
 	private double velocityX = 0;
 	private double velocityY = 0;
 	private final double VELOCITY = 200;
 	private final double PROXIMITY = 100;
+
 	private long score = 0;
 	private boolean isAtExit = false;
 	private String proximityMessage = "";
+
 	private int animationFrame = 0;
-	private int leftFrames = 15; //TODO Make left, up and down frames consist of 20 frames just like right
-	private int rightFrames = 20;
-	private int upFrames = 15;
-	private int downFrames = 15;
+	private int idleFrame = 0;
+
+	private int moveFrames = 20;
+	private int stillFrames = 20;
+
+	private String direction = "";
 
 
 	public KJASprite(double centerX, double centerY) {
@@ -38,6 +44,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		catch (IOException e) {
 			System.out.println(e.toString());
 		}
+		direction = "right";
 
 	}
 
@@ -140,7 +147,8 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			width = 50;
 			velocityX = -VELOCITY;
 			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= leftFrames) {
+			direction = "left";
+			if (animationFrame >= moveFrames) {
 				animationFrame = 1;
 			}
 
@@ -151,7 +159,8 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			width = 50;
 			velocityX += VELOCITY;
 			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= rightFrames) {
+			direction = "right";
+			if (animationFrame >= moveFrames) {
 				animationFrame = 1;
 			}
 		}
@@ -161,7 +170,8 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			width = 25;
 			velocityY = -VELOCITY;	
 			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= upFrames) {
+			direction = "up";
+			if (animationFrame >= moveFrames) {
 				animationFrame = 1;
 			}
 		}
@@ -171,13 +181,20 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			width = 25;
 			velocityY += VELOCITY;	
 			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= downFrames) {
+			direction = "down";
+			if (animationFrame >= moveFrames) {
 				animationFrame = 1;
 			}
 		}
 
 		getImageForAnimationFrame(keyboard);
-
+		if (keyboard.keyDown(83) == false && keyboard.keyDown(87) == false && keyboard.keyDown(68) == false && keyboard.keyDown(65) == false) {
+			setIdleFrame(idleFrame + 1);
+			if (idleFrame >= stillFrames) {
+				idleFrame = 1;
+			}
+			getIdleImage();
+		}
 
 		double deltaX = actual_delta_time * 0.001 * velocityX;
 		double deltaY = actual_delta_time * 0.001 * velocityY;
@@ -311,29 +328,62 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	public boolean getIsAtExit() {
 		return isAtExit;
 	} 
-
-	public int getNumRightFrames() {
-		return rightFrames;
-	}
-
-	public int getNumLeftFrames() {
-		return leftFrames; 
-	}
-
-	public int getNumUpFrames() {
-		return upFrames;
-	}
-
-	public int getNumDownFrames() {
-		return downFrames;
+	
+	public int getMoveFrames() {
+		return moveFrames;
 	}
 
 	public void setAnimationFrame(int frame) {
 		this.animationFrame = frame;
 	}
 
-	public void getIdleImage(KeyboardInput keyboard) {
-		//TODO make a method to reset the character to a standing sprite when it's no longer moving
+	public int getStillFrames() {
+		return stillFrames; 
+	}
+	public void setIdleFrame(int frame) {
+		this.idleFrame = frame;
+	}
+
+	public void getIdleImage() {
+		if (direction == "left") {
+			//player is looking left
+			try {
+				image = ImageIO.read(new File("res/capy/idle/left/capy_idle_left_" + idleFrame + ".png"));
+			}
+			catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
+		
+		if (direction == "right") {
+			//player is looking right
+			try {
+				image = ImageIO.read(new File("res/capy/idle/right/capy_idle_right_" + idleFrame + ".png"));
+			}
+			catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
+		
+		if (direction == "up") {
+			//player is looking up
+			try {
+				image = ImageIO.read(new File("res/capy/idle/up/capy_idle_up_" + idleFrame + ".png"));
+			}
+			catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
+		
+		if (direction == "down") {
+			//player is looking down
+			try {
+				image = ImageIO.read(new File("res/capy/idle/down/capy_idle_down_" + idleFrame + ".png"));
+			}
+			catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
 	}
 
 	public void getImageForAnimationFrame(KeyboardInput keyboard) {

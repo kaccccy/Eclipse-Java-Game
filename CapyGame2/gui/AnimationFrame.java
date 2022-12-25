@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,6 +17,8 @@ public class AnimationFrame extends JFrame {
 	final public static int SCREEN_HEIGHT = 600;
 	final public static int SCREEN_WIDTH = 800;
 
+	
+	
 	private int screenCenterX = SCREEN_WIDTH / 2;
 	private int screenCenterY = SCREEN_HEIGHT / 2;
 
@@ -92,6 +95,8 @@ public class AnimationFrame extends JFrame {
 		panel.setLayout(null);
 		panel.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		getContentPane().add(panel, BorderLayout.CENTER);
+		
+		setTitle("Capy Game 2; Working Title"); //TODO make a good title for the game
 /*
 		btnPauseRun = new JButton("||");
 		btnPauseRun.addMouseListener(new MouseAdapter() {
@@ -114,7 +119,7 @@ public class AnimationFrame extends JFrame {
 		getContentPane().add(lblTop);
 		getContentPane().setComponentZOrder(lblTop, 0);
 
-		lblBottom = new JLabel("Status");
+		lblBottom = new JLabel("");
 		lblBottom.setForeground(Color.WHITE);
 		lblBottom.setFont(new Font("Consolas", Font.BOLD, 30));
 		lblBottom.setBounds(16, SCREEN_HEIGHT - 30 - 16, SCREEN_WIDTH - 16, 36);
@@ -136,6 +141,8 @@ public class AnimationFrame extends JFrame {
 		};
 
 		thread.start();
+		
+		
 		System.out.println("main() complete");
 
 	}	
@@ -154,6 +161,7 @@ public class AnimationFrame extends JFrame {
 			this.logicalCenterX = universe.getXCenter();
 			this.logicalCenterY = universe.getYCenter();
 
+			
 			// main game loop
 			while (stop == false && universe.isComplete() == false) {
 
@@ -207,11 +215,7 @@ public class AnimationFrame extends JFrame {
 	private void updateControls() {
 		
 		this.lblTop.setText(String.format("Time: %4.3f", elapsed_time / 1000.0));
-		this.lblBottom.setText(Integer.toString(universeLevel));
-		if (universe != null) {
-			this.lblBottom.setText(universe.toString());
-		}
-
+	
 	}
 
 	private void updateTime() {
