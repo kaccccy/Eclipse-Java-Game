@@ -8,6 +8,7 @@ public class MappedBackgroundUniverse implements Universe {
 	private Background background2 = null;
 	private ArrayList<Background> backgrounds = null;
 	private DisplayableSprite player1 = null;
+	private DisplayableSprite tree = null;
 	private ArrayList<DisplayableSprite> sprites = new ArrayList<DisplayableSprite>();
 	private double xCenter = 0;
 	private double yCenter = 0;
@@ -20,8 +21,10 @@ public class MappedBackgroundUniverse implements Universe {
 		backgrounds.add(background1);
 		backgrounds.add(background2);
 		
+		tree = new TreeSprite(KJABackground.TILE_HEIGHT * 8, KJABackground.TILE_WIDTH * 4);
 		player1 = new KJASprite(KJABackground.TILE_HEIGHT * 2, KJABackground.TILE_WIDTH * 4);
 		sprites.add(player1);
+		sprites.add(tree);
 		sprites.addAll(barriers);
 
 	}

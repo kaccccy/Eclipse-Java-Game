@@ -199,15 +199,16 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		double deltaX = actual_delta_time * 0.001 * velocityX;
 		double deltaY = actual_delta_time * 0.001 * velocityY;
 
-		//boolean collidingWithKJA = checkCollisionWithKJA(universe.getSprites(), deltaX, deltaY);
 		boolean collidingBarrierX = checkCollisionWithBarrier(universe.getSprites(), deltaX, 0);
 		boolean collidingBarrierY = checkCollisionWithBarrier(universe.getSprites(), 0, deltaY);
+		checkSpriteOverlap(universe.getSprites());
 		//boolean checkProximity = checkProximity(universe.getSprites());
 
-		if (collidingBarrierX == false /*|| collidingWithKJA == false*/) {
+
+		if (collidingBarrierX == false) {
 			this.centerX += deltaX;
 		}
-		if (collidingBarrierY == false /*|| collidingWithKJA == false*/) {
+		if (collidingBarrierY == false) {
 			this.centerY += deltaY;
 		}
 		/*
@@ -227,7 +228,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		boolean colliding = false;
 
 		for (DisplayableSprite sprite : sprites) {
-			if (sprite instanceof BarrierSprite) {
+			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite) {
 				if (CollisionDetection.overlaps(this.getMinX() + deltaX, this.getMinY() + deltaY, 
 						this.getMaxX()  + deltaX, this.getMaxY() + deltaY, 
 						sprite.getMinX(),sprite.getMinY(), 
@@ -239,25 +240,44 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		}		
 		return colliding;		
 	}
-	/*
-	private boolean checkCollisionWithKJA(ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
 
-		//deltaX and deltaY represent the potential change in position
-		boolean colliding = false;
+	private void checkSpriteOverlap(ArrayList<DisplayableSprite> sprites) { 
+		double pushOutDistance = 0;
 
 		for (DisplayableSprite sprite : sprites) {
-			if (sprite instanceof KJASprite) {
-
-
-				if (CollisionDetection.pixelBasedOverlaps(this, sprite, deltaX, deltaY)) {
-					colliding = true;
-					break;					
+			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite) {
+				if (CollisionDetection.overlaps(this.getMinX(), this.getMinY(), this.getMaxX(), this.getMaxY(), 
+						sprite.getMinX(), sprite.getMinY(), sprite.getMaxX(), sprite.getMaxY())) {
+					// Collision detected, determine which side of the barrier sprite the player sprite is colliding with
+					/*	if (this.getMinY() < sprite.getMinY()) {
+						// Player sprite is colliding with the top side of the barrier sprite
+						pushOutDistance = this.getMaxY() - sprite.getMinY();
+					} else if (this.getMaxY() > sprite.getMaxY()) {
+						// Player sprite is colliding with the bottom side of the barrier sprite
+						pushOutDistance = this.getMinY() - sprite.getMaxY();
+					} else*/ if (this.getMinX() < sprite.getMinX()) {
+						// Player sprite is colliding with the left side of the barrier sprite
+						pushOutDistance = this.getMaxX() - sprite.getMinX();
+					} else if (this.getMaxX() > sprite.getMaxX()) {
+						// Player sprite is colliding with the right side of the barrier sprite
+						pushOutDistance = this.getMinX() - sprite.getMaxX();
+					}
 				}
 			}
-		}		
-		return colliding;		
-	}
+		}
 
+		if (pushOutDistance != 0) {
+			// Push player sprite out of the barrier sprite
+			double movementX = (velocityX + pushOutDistance);
+			//double movementY = (velocityY + pushOutDistance);
+
+			this.centerX -= movementX;
+			//this.centerY -= movementY; // No vertical sprite overlapping has been seen for this part 
+			// of the code to be needed yet, but it's here to save me the possible headache
+		}
+
+	}
+	/*
 	private void checkCoversCoin(ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
 
 		for (DisplayableSprite sprite : sprites) {
@@ -328,7 +348,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	public boolean getIsAtExit() {
 		return isAtExit;
 	} 
-	
+
 	public int getMoveFrames() {
 		return moveFrames;
 	}
@@ -354,7 +374,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 				System.out.println(e.toString());
 			}
 		}
-		
+
 		if (direction == "right") {
 			//player is looking right
 			try {
@@ -364,7 +384,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 				System.out.println(e.toString());
 			}
 		}
-		
+
 		if (direction == "up") {
 			//player is looking up
 			try {
@@ -374,7 +394,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 				System.out.println(e.toString());
 			}
 		}
-		
+
 		if (direction == "down") {
 			//player is looking down
 			try {

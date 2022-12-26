@@ -8,46 +8,51 @@ public class TreeSprite implements DisplayableSprite {
 
 	private static Image image;
 	private boolean visible = true;
-	private double centerX = 0;
-	private double centerY = 0;
-	private double width = 60;
-	private double height = 75;
+	private static double centerX = 45;
+	private static double centerY = 64;
+	private double width = 90;
+	private double height = 128;
 	private boolean dispose = false;	
-	
-	public TreeSprite(double minX, double minY, double maxX, double maxY, boolean visible) {
-		
+
+
+	public TreeSprite(double centerX, double centerY) {
+
+		this.centerX = centerX;
+		this.centerY = centerY;
+
 		if (image == null && visible) {
 			try {
 				image = ImageIO.read(new File("res/KJA/tree.png"));
 			}
 			catch (IOException e) {
-				e.printStackTrace();
-			}		
+				System.out.println(e.toString());
+			}
+
 		}
-		
-		this.centerX = (minX + maxX) / 2;
-		this.centerY = (minY + maxY) / 2;
-		this.width = maxX - minX;
-		this.height = maxY - minY;
-		this.visible = visible;
-		
 	}
-	
+		public TreeSprite(double minX, double minY, double maxX, double maxY, boolean visible) {
+			this(centerX, centerY);
+
+			this.height = height;
+			this.width = width;	
+
+	}
+
 
 	public Image getImage() {
 		return image;
 	}
-	
+
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	
+
 	//DISPLAYABLE
-	
+
 	public boolean getVisible() {
 		return this.visible;
 	}
-	
+
 	public double getMinX() {
 		return centerX - (width / 2);
 	}
@@ -79,8 +84,8 @@ public class TreeSprite implements DisplayableSprite {
 	public double getCenterY() {
 		return centerY;
 	};
-	
-	
+
+
 	public boolean getDispose() {
 		return dispose;
 	}
@@ -90,7 +95,7 @@ public class TreeSprite implements DisplayableSprite {
 	}
 
 	public void update(Universe universe, KeyboardInput keyboard, long actual_delta_time) {
-			
-	}
 
+	}
 }
+

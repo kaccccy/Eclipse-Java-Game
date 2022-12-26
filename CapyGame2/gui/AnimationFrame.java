@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.awt.*;
 import java.awt.Dialog.ModalityType;
 import java.util.ArrayList;
@@ -58,11 +59,14 @@ public class AnimationFrame extends JFrame {
 	{
 		super("");
 		
+		ImageIcon image = new ImageIcon("res/capy/right/capy_right_standing.png");
+		this.setIconImage(image.getImage());
+		
 		this.animation = animation;
 		this.setVisible(true);		
 		this.setFocusable(true);
 		this.setSize(SCREEN_WIDTH + 20, SCREEN_HEIGHT + 36);
-
+		
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
