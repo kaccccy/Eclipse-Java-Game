@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MappedBackgroundUniverse implements Universe {
 
@@ -8,7 +9,7 @@ public class MappedBackgroundUniverse implements Universe {
 	private Background background2 = null;
 	private ArrayList<Background> backgrounds = null;
 	private DisplayableSprite player1 = null;
-	private DisplayableSprite tree = null;
+	private DisplayableSprite boat = null;
 	private ArrayList<DisplayableSprite> sprites = new ArrayList<DisplayableSprite>();
 	private double xCenter = 0;
 	private double yCenter = 0;
@@ -16,23 +17,29 @@ public class MappedBackgroundUniverse implements Universe {
 	public MappedBackgroundUniverse () {
 		background1 = new SkyBoxBackground();
 		background2 = new KJABackground();
-		ArrayList<DisplayableSprite> barriers = ((KJABackground)background2).getBarriers();
 		backgrounds =new ArrayList<Background>();
 		backgrounds.add(background1);
 		backgrounds.add(background2);
-		
-		tree = new TreeSprite(KJABackground.TILE_HEIGHT * 8, KJABackground.TILE_WIDTH * 4);
-		player1 = new KJASprite(KJABackground.TILE_HEIGHT * 2, KJABackground.TILE_WIDTH * 4);
-		sprites.add(player1);
-		sprites.add(tree);
-		sprites.addAll(barriers);
 
-	}
+		ArrayList<DisplayableSprite> barriers = ((KJABackground)background2).getBarriers();
+		ArrayList<DisplayableSprite> trees = ((KJABackground)background2).getTrees();
+		ArrayList<DisplayableSprite> shrubs = ((KJABackground)background2).getShrubs();
+		
+		player1 = new KJASprite(KJABackground.TILE_HEIGHT * 3, KJABackground.TILE_WIDTH * 4);
+		sprites.add(player1);
+		
+		boat = new BoatSprite(KJABackground.TILE_HEIGHT, KJABackground.TILE_WIDTH * 4);
+		sprites.add(boat);
+		
+		sprites.addAll(barriers); 	
+		sprites.addAll(trees); 
+		sprites.addAll(shrubs);
+		}
 
 	public double getScale() {
 		return 1;
 	}	
-	
+
 	public double getXCenter() {
 		return this.xCenter;
 	}
@@ -40,7 +47,7 @@ public class MappedBackgroundUniverse implements Universe {
 	public double getYCenter() {
 		return this.yCenter;
 	}
-	
+
 	public void setXCenter(double xCenter) {
 		this.xCenter = xCenter;
 	}
@@ -48,7 +55,7 @@ public class MappedBackgroundUniverse implements Universe {
 	public void setYCenter(double yCenter) {
 		this.yCenter = yCenter;
 	}
-	
+
 	public boolean isComplete() {
 		return complete;
 	}
@@ -68,21 +75,21 @@ public class MappedBackgroundUniverse implements Universe {
 	public ArrayList<DisplayableSprite> getSprites() {
 		return sprites;
 	}
-		
+
 	public boolean centerOnPlayer() {
 		return true;
 	}		
-	
+
 	public void update(KeyboardInput keyboard, long actual_delta_time) {
 
 		if (keyboard.keyDownOnce(27)) {
 			complete = true;
 		}
-		
+
 		for (int i = 0; i < sprites.size(); i++) {
 			DisplayableSprite sprite = sprites.get(i);
 			sprite.update(this, keyboard, actual_delta_time);
-    	} 
+		} 
 	}
 
 	public String toString() {
