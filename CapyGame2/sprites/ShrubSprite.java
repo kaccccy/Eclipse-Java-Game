@@ -4,21 +4,21 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class TreeSprite implements DisplayableSprite {
+public class ShrubSprite implements DisplayableSprite {
 
 	private static Image image;
 	private boolean visible = true;
 	private double centerX = 0;
 	private double centerY = 0;
-	private double width = 90;
-	private double height = 128;
+	private double width = 30;
+	private double height = 28;
 	private boolean dispose = false;	
 	
-	public TreeSprite(double minX, double minY, double maxX, double maxY, boolean visible) {
+	public ShrubSprite(double minX, double minY, double maxX, double maxY, boolean visible) {
 		
 		if (image == null && visible) {
 			try {
-				image = ImageIO.read(new File("res/KJA/tree.png"));
+				image = ImageIO.read(new File("res/KJA/shrub.png"));
 			}
 			catch (IOException e) {
 				e.printStackTrace();
