@@ -2,12 +2,15 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
 public class KJABackground implements Background {
 	private Image grass;
 	private Image water;
+	private Image[][] waterSprites;
 	private Image sand;
 	private Image sandyGrass;
 	private Image border;
@@ -18,40 +21,48 @@ public class KJABackground implements Background {
 	protected static int TILE_HEIGHT = 50;
 
 	private int map[][] = new int[][] { 
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0},
-		{0,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,0},
-		{0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,0},
-		{0,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},
-		{0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 	};
 
 	public KJABackground() {
 
 		try {
+			map = CSVReader.importFromCSV("res/Map/GameMap.csv");
+			maxRows = map.length - 1;
+			maxCols = map[0].length - 1;
+
 			this.border = null;
 			this.grass = ImageIO.read(new File("res/KJA/grass.png"));
-			this.water = ImageIO.read(new File("res/KJA/water.png"));
 			this.sand = ImageIO.read(new File("res/KJA/sand.png"));
-			this.sandyGrass = ImageIO.read(new File("res/KJA/sandy_grass.png")); 
-		}
-		catch (IOException e) {
+
+			// Initialize the waterSprites array with the same dimensions as the map
+			waterSprites = new Image[maxRows][maxCols];
+
+			// Randomly choose a sprite for each water tile and store it in the waterSprites array
+			Random rand = new Random();
+			for (int row = 0; row < maxRows; row++) {
+				for (int col = 0; col < maxCols; col++) {
+					if (map[row][col] == 2) {
+						int index = rand.nextInt(16) + 1;
+						try {
+							waterSprites[row][col] = ImageIO.read(new File("res/KJA/water/water_" + index + ".png"));
+						} catch (IOException e) {
+							System.out.println(e.toString());
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
 			System.out.println(e.toString());
 		}
-		maxRows = map.length - 1;
-		maxCols = map[0].length - 1;
+
+
 	}
 
 	@Override
 	public Tile getTile(int col, int row) {
 		Image image = null;
+
+
 
 		if (row < 0 || row > maxRows || col < 0 || col > maxCols) {
 			image = null;
@@ -63,13 +74,16 @@ public class KJABackground implements Background {
 			image = grass;
 		}
 		else if (map[row][col] == 2) {
-			image = water;
+			image = waterSprites[row][col];
 		}
 		else if (map[row][col] == 3) {
 			image = sand;
 		}
 		else if (map[row][col] == 4) {
-			image = sandyGrass;
+			image = grass; // FOR TREE BGS TO WORK
+		}
+		else if (map[row][col] == 5) {
+			image = grass; // FOR SHRUB BGS TO WORK
 		}
 		else {
 			image = null;
@@ -118,6 +132,30 @@ public class KJABackground implements Background {
 			}
 		}
 		return barriers;
+	}
+
+	public ArrayList<DisplayableSprite> getTrees() {
+		ArrayList<DisplayableSprite> trees = new ArrayList<DisplayableSprite>();
+		for (int col = 0; col < map[0].length; col++) {
+			for (int row = 0; row < map.length; row++) {
+				if (map[row][col] == 4) {
+					trees.add(new TreeSprite(col * TILE_WIDTH, (row - 2) * TILE_HEIGHT, (col + 2) * TILE_WIDTH, (row + 1) * TILE_HEIGHT, true));
+				}
+			}
+		}
+		return trees;
+	}
+
+	public ArrayList<DisplayableSprite> getShrubs() {
+		ArrayList<DisplayableSprite> shrubs = new ArrayList<DisplayableSprite>();
+		for (int col = 0; col < map[0].length; col++) {
+			for (int row = 0; row < map.length; row++) {
+				if (map[row][col] == 5) {
+					shrubs.add(new ShrubSprite(col * TILE_WIDTH, row * TILE_HEIGHT, (col + 1) * TILE_WIDTH, (row + 1) * TILE_HEIGHT, true));
+				}
+			}
+		}
+		return shrubs;
 	}
 
 	@Override

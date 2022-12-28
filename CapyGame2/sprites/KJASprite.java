@@ -145,9 +145,15 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		//LEFT
 		if (keyboard.keyDown(65)) {
 			width = 50;
-			velocityX = -VELOCITY;
+			if (keyboard.keyDown(16)) {
+				velocityX -= VELOCITY * 1.75;
+				direction = "left sprint";
+			}
+			else {
+				velocityX -= VELOCITY;
+				direction = "left";
+			}
 			setAnimationFrame(animationFrame + 1);
-			direction = "left";
 			if (animationFrame >= moveFrames) {
 				animationFrame = 1;
 			}
@@ -157,9 +163,15 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		// RIGHT
 		else if (keyboard.keyDown(68)) {
 			width = 50;
-			velocityX += VELOCITY;
+			if (keyboard.keyDown(16)) {
+				velocityX += VELOCITY * 1.75;
+				direction = "right sprint";
+			}
+			else {
+				velocityX += VELOCITY;
+				direction = "right";
+			}		
 			setAnimationFrame(animationFrame + 1);
-			direction = "right";
 			if (animationFrame >= moveFrames) {
 				animationFrame = 1;
 			}
@@ -168,9 +180,14 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		//UP
 		else if (keyboard.keyDown(87)) {
 			width = 25;
-			velocityY = -VELOCITY;	
-			setAnimationFrame(animationFrame + 1);
+			if (keyboard.keyDown(16)) {
+				velocityY -= VELOCITY * 1.75;
+			}
+			else {
+				velocityY -= VELOCITY;
+			}
 			direction = "up";
+			setAnimationFrame(animationFrame + 1);
 			if (animationFrame >= moveFrames) {
 				animationFrame = 1;
 			}
@@ -179,9 +196,14 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		// DOWN
 		else if (keyboard.keyDown(83)) {
 			width = 25;
-			velocityY += VELOCITY;	
-			setAnimationFrame(animationFrame + 1);
+			if (keyboard.keyDown(16)) {
+				velocityY += VELOCITY * 1.75;
+			}
+			else {
+				velocityY += VELOCITY;
+			}
 			direction = "down";
+			setAnimationFrame(animationFrame + 1);
 			if (animationFrame >= moveFrames) {
 				animationFrame = 1;
 			}
@@ -201,6 +223,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 
 		boolean collidingBarrierX = checkCollisionWithBarrier(universe.getSprites(), deltaX, 0);
 		boolean collidingBarrierY = checkCollisionWithBarrier(universe.getSprites(), 0, deltaY);
+
 		checkSpriteOverlap(universe.getSprites());
 		//boolean checkProximity = checkProximity(universe.getSprites());
 
@@ -228,7 +251,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		boolean colliding = false;
 
 		for (DisplayableSprite sprite : sprites) {
-			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite) {
+			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite || sprite instanceof ShrubSprite || sprite instanceof BoatSprite) {
 				if (CollisionDetection.overlaps(this.getMinX() + deltaX, this.getMinY() + deltaY, 
 						this.getMaxX()  + deltaX, this.getMaxY() + deltaY, 
 						sprite.getMinX(),sprite.getMinY(), 
@@ -409,20 +432,42 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	public void getImageForAnimationFrame(KeyboardInput keyboard) {
 
 		if (keyboard.keyDown(65)) {
-			// player is moving left
-			try {
-				image = ImageIO.read(new File("res/capy/left/capy_left_walk_" + animationFrame + ".png"));
+			if (keyboard.keyDown(16)) {
+				// player is sprinting left
+				try {
+					image = ImageIO.read(new File("res/capy/left_sprint/capy_left_sprint_" + animationFrame + ".png"));
+				}
+				catch (IOException e) {
+					System.out.println(e.toString());
+				}
 			}
-			catch (IOException e) {
-				System.out.println(e.toString());
+			else {
+				// player is moving left
+				try {
+					image = ImageIO.read(new File("res/capy/left/capy_left_walk_" + animationFrame + ".png"));
+				}
+				catch (IOException e) {
+					System.out.println(e.toString());
+				}
 			}
 		} else if (keyboard.keyDown(68)) {
-			// player is moving right
-			try {
-				image = ImageIO.read(new File("res/capy/right/capy_right_walk_" + animationFrame + ".png"));
+			if (keyboard.keyDown(16)) {
+				// player is sprinting right
+				try {
+					image = ImageIO.read(new File("res/capy/right_sprint/capy_right_sprint_" + animationFrame + ".png"));
+				}
+				catch (IOException e) {
+					System.out.println(e.toString());
+				}
 			}
-			catch (IOException e) {
-				System.out.println(e.toString());
+			else {
+				// player is moving right
+				try {
+					image = ImageIO.read(new File("res/capy/right/capy_right_walk_" + animationFrame + ".png"));
+				}
+				catch (IOException e) {
+					System.out.println(e.toString());
+				}
 			}
 		} else if (keyboard.keyDown(87)) {
 			// player is moving up
