@@ -222,15 +222,22 @@ public class AnimationFrame extends JFrame {
 				handleKeyboardInput();
 
 				//UPDATE STATE
-				updateTime();
-
+				updateTime();				
 				universe.update(keyboard, actual_delta_time);
-				updateControls();
+				
+				//align animation frame with logical universe
+				if (player1 != null && centreOnPlayer) {
+					this.logicalCenterX = player1.getCenterX();
+					this.logicalCenterY = player1.getCenterY();     
+				}
+				else {
+					this.logicalCenterX = universe.getXCenter();
+					this.logicalCenterY = universe.getYCenter();
+				}
 
 				//REFRESH
-				this.logicalCenterX = universe.getXCenter();
-				this.logicalCenterY = universe.getYCenter();
-				this.repaint();
+				updateControls();
+				this.repaint();			
 			}
 
 			universe = animation.getNextUniverse();
@@ -325,11 +332,6 @@ public class AnimationFrame extends JFrame {
 		{	
 			if (universe == null) {
 				return;
-			}
-
-			if (player1 != null && centreOnPlayer) {
-				logicalCenterX = player1.getCenterX();
-				logicalCenterY = player1.getCenterY();     
 			}
 
 			if (backgrounds != null) {
