@@ -18,7 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class TitleFrame extends JDialog {
-
+ boolean isVisible = true;
 	private JPanel contentPane;
 
 	/**
@@ -27,7 +27,7 @@ public class TitleFrame extends JDialog {
 	public TitleFrame() {
 		
 		this.setUndecorated(true);
-		this.setBackground(Color.BLUE);
+		this.setBackground(Color.BLACK);
 		
 		setType(Type.NORMAL);
 		setResizable(false);
@@ -39,10 +39,10 @@ public class TitleFrame extends JDialog {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Astronaut");
+		JLabel lblTitle = new JLabel("Capy Game 2: The Squeakquel");
 		lblTitle.setForeground(Color.ORANGE);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setFont(new Font("Stencil", Font.PLAIN, 48));
+		lblTitle.setFont(new Font("Stencil", Font.PLAIN, 20));
 		lblTitle.setBounds(0, 32, 369, 61);
 		contentPane.add(lblTitle);
 		
@@ -64,5 +64,6 @@ public class TitleFrame extends JDialog {
 	
 	protected void btnPlay_mouseClicked(MouseEvent e) {
 		this.setVisible(false);
+		isVisible = false;
 	}
 }

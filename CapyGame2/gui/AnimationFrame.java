@@ -79,9 +79,9 @@ public class AnimationFrame extends JFrame {
 
 
 		this.animation = animation;
-		this.setVisible(true);		
+		this.setVisible(false);		
 		this.setFocusable(true);
-		this.setSize(SCREEN_WIDTH + 20, SCREEN_HEIGHT + 36);
+		this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -190,15 +190,9 @@ public class AnimationFrame extends JFrame {
 			this.logicalCenterX = universe.getXCenter();
 			this.logicalCenterY = universe.getYCenter();
 
-			//pause while title screen is displayed
-			while (titleFrame != null && titleFrame.isVisible() == true) {
-				Thread.yield();
-				try {
-					Thread.sleep(1);
-				}
-				catch(Exception e) {    					
-				} 				
-			}
+			//Main Menu
+			if (titleFrame.isVisible == false)
+				this.setVisible(true);
 			
 			// main game loop
 			while (stop == false && universe.isComplete() == false) {
