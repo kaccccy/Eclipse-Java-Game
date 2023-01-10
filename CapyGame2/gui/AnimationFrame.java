@@ -10,6 +10,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.font.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.BufferedInputStream;
 
 
 public class AnimationFrame extends JFrame {
@@ -18,8 +26,8 @@ public class AnimationFrame extends JFrame {
 	final public static int SCREEN_HEIGHT = 600;
 	final public static int SCREEN_WIDTH = 800;
 
-	
-	
+	private TitleFrame titleFrame = null;
+
 	private int screenCenterX = SCREEN_WIDTH / 2;
 	private int screenCenterY = SCREEN_HEIGHT / 2;
 
@@ -29,10 +37,12 @@ public class AnimationFrame extends JFrame {
 	private double logicalCenterY = 0;
 
 	private JPanel panel = null;
+	private JPanel menu = null;
 	private JButton btnPauseRun;
 	private JLabel lblTop;
+	private JLabel lblPause;
 	private JLabel lblBottom;
-
+	public Font retro;
 	private static boolean stop = false;
 
 	private long current_time = 0;								//MILLISECONDS
@@ -41,7 +51,7 @@ public class AnimationFrame extends JFrame {
 	private long minimum_delta_time = 1000 / FRAMES_PER_SECOND;	//MILLISECONDS
 	private long actual_delta_time = 0;							//MILLISECONDS
 	private long elapsed_time = 0;
-	private boolean isPaused = false;
+	private static boolean isPaused = false;
 
 	private KeyboardInput keyboard = new KeyboardInput();
 	private Universe universe = null;
@@ -54,19 +64,25 @@ public class AnimationFrame extends JFrame {
 	private Background background = null;
 	boolean centreOnPlayer = false;
 	int universeLevel = 0;
-	
+
 	public AnimationFrame(Animation animation)
 	{
 		super("");
-		
+
+		try {
+			retro = Font.createFont(Font.TRUETYPE_FONT, new File("res/Fonts/80s-retro-future.ttf"));
+			retro = retro.deriveFont(20.0f);
+		} catch (Exception ex) {}
+
 		ImageIcon image = new ImageIcon("res/capy/right/capy_right_standing.png");
 		this.setIconImage(image.getImage());
-		
+
+
 		this.animation = animation;
 		this.setVisible(true);		
 		this.setFocusable(true);
 		this.setSize(SCREEN_WIDTH + 20, SCREEN_HEIGHT + 36);
-		
+
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -90,18 +106,23 @@ public class AnimationFrame extends JFrame {
 				contentPane_mouseMoved(e);
 			}
 		});
-		
+
 		Container cp = getContentPane();
 		cp.setBackground(Color.BLACK);
 		cp.setLayout(null);
-
+		
 		panel = new DrawPanel();
 		panel.setLayout(null);
-		panel.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setSize(SCREEN_WIDTH + 5, SCREEN_HEIGHT);
 		
+
+			getContentPane().add(panel, BorderLayout.CENTER);
+		
+		
+
 		setTitle("Capy Game 2; Working Title"); //TODO make a good title for the game
-/*
+		setResizable(false);
+		/*
 		btnPauseRun = new JButton("||");
 		btnPauseRun.addMouseListener(new MouseAdapter() {
 			@Override
@@ -115,22 +136,13 @@ public class AnimationFrame extends JFrame {
 		btnPauseRun.setFocusable(false);
 		getContentPane().add(btnPauseRun);
 		getContentPane().setComponentZOrder(btnPauseRun, 0);
-*/
+		 */
 		lblTop = new JLabel("Time: ");
 		lblTop.setForeground(Color.WHITE);
-		lblTop.setFont(new Font("Consolas", Font.BOLD, 20));
+		lblTop.setFont(retro);
 		lblTop.setBounds(16, 22, SCREEN_WIDTH - 16, 30);
 		getContentPane().add(lblTop);
 		getContentPane().setComponentZOrder(lblTop, 0);
-
-		lblBottom = new JLabel("");
-		lblBottom.setForeground(Color.WHITE);
-		lblBottom.setFont(new Font("Consolas", Font.BOLD, 30));
-		lblBottom.setBounds(16, SCREEN_HEIGHT - 30 - 16, SCREEN_WIDTH - 16, 36);
-		lblBottom.setHorizontalAlignment(SwingConstants.CENTER);
-		getContentPane().add(lblBottom);
-		getContentPane().setComponentZOrder(lblBottom, 0);
-
 	}
 
 	public void start()
@@ -145,8 +157,21 @@ public class AnimationFrame extends JFrame {
 		};
 
 		thread.start();
+
+		//create a title frame
+		titleFrame = new TitleFrame();
+		//center on the parent
+		titleFrame.setLocationRelativeTo(this);
+		//display title screen
+		//set the modality to APPLICATION_MODAL
+		titleFrame.setModalityType(ModalityType.APPLICATION_MODAL);
+		//by setting the dialog to visible, the application will start running the dialog
+		titleFrame.setVisible(true);
 		
-		
+		//when title screen has been closed, execution will resume here.
+		titleFrame.dispose();
+		this.setVisible(true);
+
 		System.out.println("main() complete");
 
 	}	
@@ -165,6 +190,15 @@ public class AnimationFrame extends JFrame {
 			this.logicalCenterX = universe.getXCenter();
 			this.logicalCenterY = universe.getYCenter();
 
+			//pause while title screen is displayed
+			while (titleFrame != null && titleFrame.isVisible() == true) {
+				Thread.yield();
+				try {
+					Thread.sleep(1);
+				}
+				catch(Exception e) {    					
+				} 				
+			}
 			
 			// main game loop
 			while (stop == false && universe.isComplete() == false) {
@@ -195,7 +229,7 @@ public class AnimationFrame extends JFrame {
 
 				//UPDATE STATE
 				updateTime();
-				
+
 				universe.update(keyboard, actual_delta_time);
 				updateControls();
 
@@ -217,20 +251,20 @@ public class AnimationFrame extends JFrame {
 	}
 
 	private void updateControls() {
-		
+
 		this.lblTop.setText(String.format("Time: %4.3f", elapsed_time / 1000.0));
-	
+
 	}
 
 	private void updateTime() {
 
 		current_time = System.currentTimeMillis();
-		actual_delta_time = (isPaused ? 0 : current_time - last_refresh_time);
+		actual_delta_time = (getIsPaused() ? 0 : current_time - last_refresh_time);
 		last_refresh_time = current_time;
 		elapsed_time += actual_delta_time;
 
 	}
-/*
+	/*
 	protected void btnPauseRun_mouseClicked(MouseEvent arg0) {
 		if (isPaused) {
 			isPaused = false;
@@ -241,7 +275,7 @@ public class AnimationFrame extends JFrame {
 			this.btnPauseRun.setText(">");
 		}
 	}
-*/
+	 */
 	private void handleKeyboardInput() {
 		/*
 		if (keyboard.keyDown(80) && ! isPaused) {
@@ -256,7 +290,7 @@ public class AnimationFrame extends JFrame {
 		if (keyboard.keyDown(113)) {
 			scale /= 1.01;
 		}
-		
+
 		if (keyboard.keyDown(65)) {
 			screenCenterX -= 1;
 		}
@@ -269,7 +303,26 @@ public class AnimationFrame extends JFrame {
 		if (keyboard.keyDown(88)) {
 			screenCenterY += 1;
 		}
-		*/
+		 */
+
+		if (keyboard.keyDownOnce(27)) {
+
+			if (isPaused == false) {
+				isPaused = true;
+				
+				lblPause = new JLabel("Paused");
+				lblPause.setForeground(Color.WHITE);
+				Font retroPause = retro.deriveFont(50.0f);				
+				lblPause.setFont(retroPause);
+				lblPause.setBounds(16, 450, 200, 100);
+				getContentPane().add(lblPause);
+				getContentPane().setComponentZOrder(lblPause, 0);
+			}
+			else {
+				isPaused = false;
+				getContentPane().remove(lblPause);
+			}
+		}
 	}
 
 	class DrawPanel extends JPanel {
@@ -306,21 +359,21 @@ public class AnimationFrame extends JFrame {
 				}				
 			}
 		}
-		
+
 		private void paintBackground(Graphics g, Background background) {
-			
+
 			if ((g == null) || (background == null)) {
 				return;
 			}
-			
+
 			//what tile covers the top-left corner?
 			double logicalLeft = (logicalCenterX  - (screenCenterX / scale) - background.getShiftX());
 			double logicalTop =  (logicalCenterY - (screenCenterY / scale) - background.getShiftY()) ;
-						
+
 			int row = background.getRow((int)(logicalTop - background.getShiftY() ));
 			int col = background.getCol((int)(logicalLeft - background.getShiftX()  ));
 			Tile tile = background.getTile(col, row);
-			
+
 			boolean rowDrawn = false;
 			boolean screenDrawn = false;
 			while (screenDrawn == false) {
@@ -381,7 +434,7 @@ public class AnimationFrame extends JFrame {
 		int offset = screenY - screenCenterY;
 		return offset / scale;			
 	}
-	
+
 	protected void contentPane_mouseMoved(MouseEvent e) {
 		MouseInput.screenX = e.getX();
 		MouseInput.screenY = e.getY();
@@ -393,5 +446,13 @@ public class AnimationFrame extends JFrame {
 		System.out.println("windowClosing()");
 		stop = true;
 		dispose();	
+	}
+
+	public static boolean getIsPaused() {
+		return isPaused;
+	}
+
+	public void setPaused(boolean isPaused) {
+		this.isPaused = isPaused;
 	}
 }

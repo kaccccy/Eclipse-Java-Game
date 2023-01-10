@@ -143,79 +143,81 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		double velocityY = 0;
 
 		//LEFT
-		if (keyboard.keyDown(65)) {
-			width = 50;
-			if (keyboard.keyDown(16)) {
-				velocityX -= VELOCITY * 1.75;
-				direction = "left sprint";
-			}
-			else {
-				velocityX -= VELOCITY;
+		if (AnimationFrame.getIsPaused() == false) {
+			if (keyboard.keyDown(65)) {
+				width = 50;
+				if (keyboard.keyDown(16)) {
+					velocityX -= VELOCITY * 1.75;
+				}
+				else {
+					velocityX -= VELOCITY;
+					
+				}
 				direction = "left";
-			}
-			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= moveFrames) {
-				animationFrame = 1;
+				setAnimationFrame(animationFrame + 1);
+				if (animationFrame >= moveFrames) {
+					animationFrame = 1;
+				}
+
 			}
 
-		}
-
-		// RIGHT
-		else if (keyboard.keyDown(68)) {
-			width = 50;
-			if (keyboard.keyDown(16)) {
-				velocityX += VELOCITY * 1.75;
-				direction = "right sprint";
-			}
-			else {
-				velocityX += VELOCITY;
+			// RIGHT
+			else if (keyboard.keyDown(68)) {
+				width = 50;
+				if (keyboard.keyDown(16)) {
+					velocityX += VELOCITY * 1.75;
+				}
+				else {
+					velocityX += VELOCITY;
+				}		
 				direction = "right";
-			}		
-			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= moveFrames) {
-				animationFrame = 1;
+				setAnimationFrame(animationFrame + 1);
+				if (animationFrame >= moveFrames) {
+					animationFrame = 1;
+				}
 			}
-		}
 
-		//UP
-		else if (keyboard.keyDown(87)) {
-			width = 25;
-			if (keyboard.keyDown(16)) {
-				velocityY -= VELOCITY * 1.75;
+			//UP
+			else if (keyboard.keyDown(87)) {
+				width = 25;
+				if (keyboard.keyDown(16)) {
+					velocityY -= VELOCITY * 1.75;
+				}
+				else {
+					velocityY -= VELOCITY;
+				}
+				direction = "up";
+				setAnimationFrame(animationFrame + 1);
+				if (animationFrame >= moveFrames) {
+					animationFrame = 1;
+				}
 			}
-			else {
-				velocityY -= VELOCITY;
-			}
-			direction = "up";
-			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= moveFrames) {
-				animationFrame = 1;
-			}
-		}
 
-		// DOWN
-		else if (keyboard.keyDown(83)) {
-			width = 25;
-			if (keyboard.keyDown(16)) {
-				velocityY += VELOCITY * 1.75;
+			// DOWN
+			else if (keyboard.keyDown(83)) {
+				width = 25;
+				if (keyboard.keyDown(16)) {
+					velocityY += VELOCITY * 1.75;
+				}
+				else {
+					velocityY += VELOCITY;
+				}
+				direction = "down";
+				setAnimationFrame(animationFrame + 1);
+				if (animationFrame >= moveFrames) {
+					animationFrame = 1;
+				}
 			}
-			else {
-				velocityY += VELOCITY;
-			}
-			direction = "down";
-			setAnimationFrame(animationFrame + 1);
-			if (animationFrame >= moveFrames) {
-				animationFrame = 1;
-			}
-		}
 
-		getImageForAnimationFrame(keyboard);
-		if (keyboard.keyDown(83) == false && keyboard.keyDown(87) == false && keyboard.keyDown(68) == false && keyboard.keyDown(65) == false) {
-			setIdleFrame(idleFrame + 1);
-			if (idleFrame >= stillFrames) {
-				idleFrame = 1;
+			getImageForAnimationFrame(keyboard);
+			if (keyboard.keyDown(83) == false && keyboard.keyDown(87) == false && keyboard.keyDown(68) == false && keyboard.keyDown(65) == false) {
+				setIdleFrame(idleFrame + 1);
+				if (idleFrame >= stillFrames) {
+					idleFrame = 1;
+				}
+				getIdleImage();
 			}
-			getIdleImage();
+
 		}
 
 		double deltaX = actual_delta_time * 0.001 * velocityX;
@@ -268,7 +270,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		double pushOutDistance = 0;
 
 		for (DisplayableSprite sprite : sprites) {
-			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite) {
+			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite || sprite instanceof ShrubSprite || sprite instanceof BoatSprite) {
 				if (CollisionDetection.overlaps(this.getMinX(), this.getMinY(), this.getMaxX(), this.getMaxY(), 
 						sprite.getMinX(), sprite.getMinY(), sprite.getMaxX(), sprite.getMaxY())) {
 					// Collision detected, determine which side of the barrier sprite the player sprite is colliding with
