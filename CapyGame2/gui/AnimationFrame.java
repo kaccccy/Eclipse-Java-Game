@@ -42,7 +42,7 @@ public class AnimationFrame extends JFrame {
 	private JLabel lblTop;
 	private JLabel lblPause;
 	private JLabel lblBottom;
-	public Font retro;
+	public static Font retro;
 	private static boolean stop = false;
 
 	private long current_time = 0;								//MILLISECONDS
@@ -65,6 +65,7 @@ public class AnimationFrame extends JFrame {
 	boolean centreOnPlayer = false;
 	int universeLevel = 0;
 
+	
 	public AnimationFrame(Animation animation)
 	{
 		super("");
@@ -113,7 +114,7 @@ public class AnimationFrame extends JFrame {
 		
 		panel = new DrawPanel();
 		panel.setLayout(null);
-		panel.setSize(SCREEN_WIDTH + 5, SCREEN_HEIGHT);
+		panel.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 
 			getContentPane().add(panel, BorderLayout.CENTER);

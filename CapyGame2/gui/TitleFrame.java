@@ -27,26 +27,37 @@ public class TitleFrame extends JDialog {
 	public TitleFrame() {
 		
 		this.setUndecorated(true);
-		this.setBackground(Color.BLACK);
+	//	this.setBackground(Color.BLACK);
+		
 		
 		setType(Type.NORMAL);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 365, 253);
+		setSize(800, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblTitle = new JLabel("Capy Game 2: The Squeakquel");
+		
+		Font lblFont = AnimationFrame.retro.deriveFont(20.0f);
+
+		JLabel lblTitle = new JLabel("Capy Game 2:");
 		lblTitle.setForeground(Color.ORANGE);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setFont(new Font("Stencil", Font.PLAIN, 20));
+		lblTitle.setFont(lblFont);
 		lblTitle.setBounds(0, 32, 369, 61);
 		contentPane.add(lblTitle);
 		
-		JButton btnPlay = new JButton("PLAY");
+		JLabel lblPickup = new JLabel("The Squeakquel");
+		lblPickup.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPickup.setForeground(Color.ORANGE);
+		lblPickup.setFont(lblFont);
+		lblPickup.setBounds(0, 87, 369, 61);
+		contentPane.add(lblPickup);
+		
+		JButton btnPlay = new JButton("Play");
 		btnPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -62,8 +73,25 @@ public class TitleFrame extends JDialog {
 		contentPane.add(btnPlay);
 	}
 	
+	JButton btnQuit = new JButton("Quit");
+	btnPlay.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			btnPlay_mouseClicked(e);
+		}
+	});
+	btnPlay.setBorder(null);
+	btnPlay.setForeground(Color.DARK_GRAY);
+	btnPlay.setOpaque(true);
+	btnPlay.setBackground(new Color(211, 211, 211));
+	btnPlay.setFont(new Font("Tahoma", Font.PLAIN, 16));
+	btnPlay.setBounds(114, 185, 145, 41);
+	contentPane.add(btnPlay);
+}
+	
 	protected void btnPlay_mouseClicked(MouseEvent e) {
-		this.setVisible(false);
+		this.dispose();
 		isVisible = false;
 	}
+	
 }
