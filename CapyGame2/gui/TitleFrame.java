@@ -126,7 +126,7 @@ public class TitleFrame extends JDialog {
 	}
 	
 	protected void btnHelp_mouseClicked(MouseEvent e) {
-		this.dispose();
+		this.dispose(); //TODO Controls and titleFrame system tray bug; when controls is pressed, everything is set to not be visible while a back button in top left and a list of controls are added. when back is pressed these two disappear and all the other components dissapear
 	}
 	
 	protected void btnQuit_mouseClicked(MouseEvent e) {
