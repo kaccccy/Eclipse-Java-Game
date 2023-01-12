@@ -10,7 +10,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Window.Type;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import javax.swing.JRadioButton;
@@ -26,10 +30,12 @@ public class TitleFrame extends JDialog {
 	 */
 	public TitleFrame() {
 		
-		this.setUndecorated(true);
+		//this.setUndecorated(true);
 	//	this.setBackground(Color.BLACK);
-		
-		
+		ImageIcon image = new ImageIcon("res/capy/right/capy_right_standing.png");
+		this.setIconImage(image.getImage());
+		setTitle("The Quest for Stuff");
+        
 		setType(Type.NORMAL);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -41,21 +47,61 @@ public class TitleFrame extends JDialog {
 		contentPane.setLayout(null);
 		
 		
-		Font lblFont = AnimationFrame.retro.deriveFont(20.0f);
-
-		JLabel lblTitle = new JLabel("Capy Game 2:");
-		lblTitle.setForeground(Color.ORANGE);
+		Font lblTitleFont = AnimationFrame.retro.deriveFont(Font.BOLD, 45.0f);
+		Font lblSubtitleFont = AnimationFrame.retro.deriveFont(25.0f);
+		
+		JLabel lblTitle = new JLabel("Capy Island 2:");
+		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setFont(lblFont);
-		lblTitle.setBounds(0, 32, 369, 61);
+		lblTitle.setFont(lblTitleFont);
+		lblTitle.setBounds(175, 75, 400, 75);
 		contentPane.add(lblTitle);
 		
-		JLabel lblPickup = new JLabel("The Squeakquel");
-		lblPickup.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPickup.setForeground(Color.ORANGE);
-		lblPickup.setFont(lblFont);
-		lblPickup.setBounds(0, 87, 369, 61);
-		contentPane.add(lblPickup);
+		JLabel lblSubtitle = new JLabel("The Quest for Stuff");
+		lblSubtitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSubtitle.setForeground(Color.WHITE);
+		lblSubtitle.setFont(lblSubtitleFont);
+		lblSubtitle.setBounds(175, 130, 400, 75);
+		contentPane.add(lblSubtitle);
+		
+		JLabel capySitting = new JLabel(); 
+		capySitting.setHorizontalAlignment(SwingConstants.CENTER);
+		capySitting.setIcon(new ImageIcon("res/capy/capy_sitting.png")); 
+        Dimension size = capySitting.getPreferredSize(); 
+        capySitting.setBounds(320, 225,  size.width, size.height);
+        contentPane.add(capySitting);
+		
+		JButton btnQuit = new JButton("Quit");
+		btnQuit.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				btnQuit_mouseClicked(e);
+			}
+		});
+		btnQuit.setBorder(null);
+		btnQuit.setForeground(Color.DARK_GRAY);
+		btnQuit.setOpaque(true);
+		btnQuit.setBackground(new Color(211, 211, 211));
+		btnQuit.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnQuit.setBounds(300, 450, 145, 41);
+		contentPane.add(btnQuit);
+		
+		
+		
+		JButton btnHelp = new JButton("Controls");
+		btnHelp.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				btnHelp_mouseClicked(e);
+			}
+		});
+		btnHelp.setBorder(null);
+		btnHelp.setForeground(Color.DARK_GRAY);
+		btnHelp.setOpaque(true);
+		btnHelp.setBackground(new Color(211, 211, 211));
+		btnHelp.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnHelp.setBounds(300, 400, 145, 41);
+		contentPane.add(btnHelp);
+	
+		
 		
 		JButton btnPlay = new JButton("Play");
 		btnPlay.addMouseListener(new MouseAdapter() {
@@ -69,29 +115,25 @@ public class TitleFrame extends JDialog {
 		btnPlay.setOpaque(true);
 		btnPlay.setBackground(new Color(211, 211, 211));
 		btnPlay.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnPlay.setBounds(114, 185, 145, 41);
+		btnPlay.setBounds(300, 350, 145, 41);
 		contentPane.add(btnPlay);
 	}
 	
-	JButton btnQuit = new JButton("Quit");
-	btnPlay.addMouseListener(new MouseAdapter() {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			btnPlay_mouseClicked(e);
-		}
-	});
-	btnPlay.setBorder(null);
-	btnPlay.setForeground(Color.DARK_GRAY);
-	btnPlay.setOpaque(true);
-	btnPlay.setBackground(new Color(211, 211, 211));
-	btnPlay.setFont(new Font("Tahoma", Font.PLAIN, 16));
-	btnPlay.setBounds(114, 185, 145, 41);
-	contentPane.add(btnPlay);
-}
 	
 	protected void btnPlay_mouseClicked(MouseEvent e) {
 		this.dispose();
 		isVisible = false;
 	}
+	
+	protected void btnHelp_mouseClicked(MouseEvent e) {
+		this.dispose();
+	}
+	
+	protected void btnQuit_mouseClicked(MouseEvent e) {
+		this.dispose();
+		isVisible = false;
+	}
+	
+
 	
 }

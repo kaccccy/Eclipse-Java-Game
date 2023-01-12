@@ -65,7 +65,7 @@ public class AnimationFrame extends JFrame {
 	boolean centreOnPlayer = false;
 	int universeLevel = 0;
 
-	
+
 	public AnimationFrame(Animation animation)
 	{
 		super("");
@@ -111,17 +111,17 @@ public class AnimationFrame extends JFrame {
 		Container cp = getContentPane();
 		cp.setBackground(Color.BLACK);
 		cp.setLayout(null);
-		
+
 		panel = new DrawPanel();
 		panel.setLayout(null);
 		panel.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		
 
-			getContentPane().add(panel, BorderLayout.CENTER);
-		
-		
 
-		setTitle("Capy Game 2; Working Title"); //TODO make a good title for the game
+		getContentPane().add(panel, BorderLayout.CENTER);
+
+
+
+		setTitle("The Quest for Stuff"); //TODO make a good title for the game
 		setResizable(false);
 		/*
 		btnPauseRun = new JButton("||");
@@ -161,17 +161,20 @@ public class AnimationFrame extends JFrame {
 
 		//create a title frame
 		titleFrame = new TitleFrame();
-		//center on the parent
-		titleFrame.setLocationRelativeTo(this);
-		//display title screen
+
 		//set the modality to APPLICATION_MODAL
 		titleFrame.setModalityType(ModalityType.APPLICATION_MODAL);
 		//by setting the dialog to visible, the application will start running the dialog
 		titleFrame.setVisible(true);
-		
 		//when title screen has been closed, execution will resume here.
-		titleFrame.dispose();
-		this.setVisible(true);
+		int x = titleFrame.getX();
+		int y = titleFrame.getY();
+//		titleFrame = null;
+		
+		if (titleFrame.isVisible == false) {
+			this.setLocation(x, y);
+			this.setVisible(true);					
+		}
 
 		System.out.println("main() complete");
 
@@ -192,9 +195,8 @@ public class AnimationFrame extends JFrame {
 			this.logicalCenterY = universe.getYCenter();
 
 			//Main Menu
-			if (titleFrame.isVisible == false)
-				this.setVisible(true);
-			
+
+
 			// main game loop
 			while (stop == false && universe.isComplete() == false) {
 
@@ -225,7 +227,7 @@ public class AnimationFrame extends JFrame {
 				//UPDATE STATE
 				updateTime();				
 				universe.update(keyboard, actual_delta_time);
-				
+
 				//align animation frame with logical universe
 				if (player1 != null && centreOnPlayer) {
 					this.logicalCenterX = player1.getCenterX();
@@ -311,7 +313,7 @@ public class AnimationFrame extends JFrame {
 
 			if (isPaused == false) {
 				isPaused = true;
-				
+
 				lblPause = new JLabel("Paused");
 				lblPause.setForeground(Color.WHITE);
 				Font retroPause = retro.deriveFont(50.0f);				
