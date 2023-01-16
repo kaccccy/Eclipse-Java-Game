@@ -268,7 +268,7 @@ public class AnimationFrame extends JFrame {
 		elapsed_time += actual_delta_time;
 
 	}
-	/*
+	
 	protected void btnPauseRun_mouseClicked(MouseEvent arg0) {
 		if (isPaused) {
 			isPaused = false;
@@ -279,7 +279,7 @@ public class AnimationFrame extends JFrame {
 			this.btnPauseRun.setText(">");
 		}
 	}
-	 */
+	 
 	private void handleKeyboardInput() {
 		/*
 		if (keyboard.keyDown(80) && ! isPaused) {

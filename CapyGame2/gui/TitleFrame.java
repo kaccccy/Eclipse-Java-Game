@@ -49,6 +49,7 @@ public class TitleFrame extends JDialog {
 		
 		Font lblTitleFont = AnimationFrame.retro.deriveFont(Font.BOLD, 45.0f);
 		Font lblSubtitleFont = AnimationFrame.retro.deriveFont(25.0f);
+		Font lblOptionsFont = AnimationFrame.retro.deriveFont(20.0f);
 		
 		JLabel lblTitle = new JLabel("Capy Island 2:");
 		lblTitle.setForeground(Color.WHITE);
@@ -81,7 +82,7 @@ public class TitleFrame extends JDialog {
 		btnQuit.setForeground(Color.DARK_GRAY);
 		btnQuit.setOpaque(true);
 		btnQuit.setBackground(new Color(211, 211, 211));
-		btnQuit.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnQuit.setFont(lblOptionsFont);
 		btnQuit.setBounds(300, 450, 145, 41);
 		contentPane.add(btnQuit);
 		
@@ -97,7 +98,7 @@ public class TitleFrame extends JDialog {
 		btnHelp.setForeground(Color.DARK_GRAY);
 		btnHelp.setOpaque(true);
 		btnHelp.setBackground(new Color(211, 211, 211));
-		btnHelp.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnHelp.setFont(lblOptionsFont);
 		btnHelp.setBounds(300, 400, 145, 41);
 		contentPane.add(btnHelp);
 	
@@ -114,7 +115,7 @@ public class TitleFrame extends JDialog {
 		btnPlay.setForeground(Color.DARK_GRAY);
 		btnPlay.setOpaque(true);
 		btnPlay.setBackground(new Color(211, 211, 211));
-		btnPlay.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnPlay.setFont(lblOptionsFont);
 		btnPlay.setBounds(300, 350, 145, 41);
 		contentPane.add(btnPlay);
 	}
@@ -131,7 +132,7 @@ public class TitleFrame extends JDialog {
 	
 	protected void btnQuit_mouseClicked(MouseEvent e) {
 		this.dispose();
-		isVisible = false;
+
 	}
 	
 
