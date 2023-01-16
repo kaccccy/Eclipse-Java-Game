@@ -6,3 +6,4 @@ add randomization to objects
 add control screen in title menu
 add some mazes 
 add win condition
+make map actually look good
