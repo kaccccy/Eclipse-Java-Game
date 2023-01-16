@@ -13,6 +13,8 @@ public class KJABackground implements Background {
 	private Image[][] waterSprites;
 	private Image sand;
 	private Image sandyGrass;
+	private Image dungeonFloor;
+	private Image dungeonWall;
 	private Image border;
 	private int maxCols = 0;
 	private int maxRows = 0;        	
@@ -33,6 +35,8 @@ public class KJABackground implements Background {
 			this.border = null;
 			this.grass = ImageIO.read(new File("res/KJA/grass.png"));
 			this.sand = ImageIO.read(new File("res/KJA/sand.png"));
+			this.dungeonFloor = ImageIO.read(new File("res/KJA/floor_plain.png"));
+			this.dungeonWall = ImageIO.read(new File("res/KJA/wall_front.png"));
 
 			// Initialize the waterSprites array with the same dimensions as the map
 			waterSprites = new Image[maxRows][maxCols];
@@ -85,6 +89,15 @@ public class KJABackground implements Background {
 		else if (map[row][col] == 5) {
 			image = grass; // FOR SHRUB BGS TO WORK
 		}
+		else if (map[row][col] == 6) {
+			image = dungeonFloor; 
+		}
+		else if (map[row][col] == 7) {
+			image = dungeonWall; 
+		}
+		else if (map[row][col] == 8) {
+			image = grass; // FOR SHRUB TORCHES TO WORK
+		}
 		else {
 			image = null;
 		}
@@ -126,7 +139,7 @@ public class KJABackground implements Background {
 		ArrayList<DisplayableSprite> barriers = new ArrayList<DisplayableSprite>();
 		for (int col = 0; col < map[0].length; col++) {
 			for (int row = 0; row < map.length; row++) {
-				if (map[row][col] == 0 || map[row][col] == 2) {
+				if (map[row][col] == 0 || map[row][col] == 2 || map[row][col] == 7) {
 					barriers.add(new BarrierSprite(col * TILE_WIDTH, row * TILE_HEIGHT, (col + 1) * TILE_WIDTH, (row + 1) * TILE_HEIGHT, false));
 				}
 			}
@@ -134,28 +147,22 @@ public class KJABackground implements Background {
 		return barriers;
 	}
 
-	public ArrayList<DisplayableSprite> getTrees() {
-		ArrayList<DisplayableSprite> trees = new ArrayList<DisplayableSprite>();
+	public ArrayList<DisplayableSprite> getObjects() {
+		ArrayList<DisplayableSprite> objects = new ArrayList<DisplayableSprite>();
 		for (int col = 0; col < map[0].length; col++) {
 			for (int row = 0; row < map.length; row++) {
 				if (map[row][col] == 4) {
-					trees.add(new TreeSprite(col * TILE_WIDTH, (row - 2) * TILE_HEIGHT, (col + 2) * TILE_WIDTH, (row + 1) * TILE_HEIGHT, true));
+					objects.add(new TreeSprite(col * TILE_WIDTH, (row - 2) * TILE_HEIGHT, (col + 2) * TILE_WIDTH, (row + 1) * TILE_HEIGHT, true));
 				}
-			}
-		}
-		return trees;
-	}
-
-	public ArrayList<DisplayableSprite> getShrubs() {
-		ArrayList<DisplayableSprite> shrubs = new ArrayList<DisplayableSprite>();
-		for (int col = 0; col < map[0].length; col++) {
-			for (int row = 0; row < map.length; row++) {
 				if (map[row][col] == 5) {
-					shrubs.add(new ShrubSprite(col * TILE_WIDTH, row * TILE_HEIGHT, (col + 1) * TILE_WIDTH, (row + 1) * TILE_HEIGHT, true));
+					objects.add(new ShrubSprite(col * TILE_WIDTH, row * TILE_HEIGHT, (col + 1) * TILE_WIDTH, (row + 1) * TILE_HEIGHT, true));
+				}
+				if (map[row][col] == 8) {
+					objects.add(new TorchSprite(col * TILE_WIDTH, row * TILE_HEIGHT, (col + .5) * TILE_WIDTH, (row + 1.25) * TILE_HEIGHT, true));
 				}
 			}
 		}
-		return shrubs;
+		return objects;
 	}
 
 	@Override

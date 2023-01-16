@@ -22,8 +22,7 @@ public class MappedBackgroundUniverse implements Universe {
 		backgrounds.add(background2);
 
 		ArrayList<DisplayableSprite> barriers = ((KJABackground)background2).getBarriers();
-		ArrayList<DisplayableSprite> trees = ((KJABackground)background2).getTrees();
-		ArrayList<DisplayableSprite> shrubs = ((KJABackground)background2).getShrubs();
+		ArrayList<DisplayableSprite> objects = ((KJABackground)background2).getObjects();
 		
 		player1 = new KJASprite(KJABackground.TILE_HEIGHT * 3, KJABackground.TILE_WIDTH * 4);
 		sprites.add(player1);
@@ -32,8 +31,7 @@ public class MappedBackgroundUniverse implements Universe {
 		sprites.add(boat);
 		
 		sprites.addAll(barriers); 	
-		sprites.addAll(trees); 
-		sprites.addAll(shrubs);
+		sprites.addAll(objects); 
 		}
 
 	public double getScale() {

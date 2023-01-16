@@ -253,7 +253,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		boolean colliding = false;
 
 		for (DisplayableSprite sprite : sprites) {
-			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite || sprite instanceof ShrubSprite || sprite instanceof BoatSprite) {
+			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite || sprite instanceof ShrubSprite || sprite instanceof BoatSprite || sprite instanceof TorchSprite) {
 				if (CollisionDetection.overlaps(this.getMinX() + deltaX, this.getMinY() + deltaY, 
 						this.getMaxX()  + deltaX, this.getMaxY() + deltaY, 
 						sprite.getMinX(),sprite.getMinY(), 
@@ -270,7 +270,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		double pushOutDistance = 0;
 
 		for (DisplayableSprite sprite : sprites) {
-			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite || sprite instanceof ShrubSprite || sprite instanceof BoatSprite) {
+			if (sprite instanceof BarrierSprite || sprite instanceof TreeSprite || sprite instanceof ShrubSprite || sprite instanceof BoatSprite || sprite instanceof TorchSprite) {
 				if (CollisionDetection.overlaps(this.getMinX(), this.getMinY(), this.getMaxX(), this.getMaxY(), 
 						sprite.getMinX(), sprite.getMinY(), sprite.getMaxX(), sprite.getMaxY())) {
 					// Collision detected, determine which side of the barrier sprite the player sprite is colliding with
