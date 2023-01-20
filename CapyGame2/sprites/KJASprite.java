@@ -147,7 +147,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			if (keyboard.keyDown(65)) {
 				width = 50;
 				if (keyboard.keyDown(16)) {
-					velocityX -= VELOCITY * 1.75;
+					velocityX -= VELOCITY * 1.5;
 				}
 				else {
 					velocityX -= VELOCITY;
@@ -165,7 +165,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			else if (keyboard.keyDown(68)) {
 				width = 50;
 				if (keyboard.keyDown(16)) {
-					velocityX += VELOCITY * 1.75;
+					velocityX += VELOCITY * 1.5;
 				}
 				else {
 					velocityX += VELOCITY;
@@ -181,7 +181,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			else if (keyboard.keyDown(87)) {
 				width = 25;
 				if (keyboard.keyDown(16)) {
-					velocityY -= VELOCITY * 1.75;
+					velocityY -= VELOCITY * 1.5;
 				}
 				else {
 					velocityY -= VELOCITY;
@@ -197,7 +197,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			else if (keyboard.keyDown(83)) {
 				width = 25;
 				if (keyboard.keyDown(16)) {
-					velocityY += VELOCITY * 1.75;
+					velocityY += VELOCITY * 1.5;
 				}
 				else {
 					velocityY += VELOCITY;

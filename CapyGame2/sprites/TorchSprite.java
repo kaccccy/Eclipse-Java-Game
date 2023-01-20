@@ -10,8 +10,8 @@ public class TorchSprite implements DisplayableSprite {
 	private boolean visible = true;
 	private double centerX = 0;
 	private double centerY = 0;
-	private double width = 30;
-	private double height = 28;
+	private double width = 8;
+	private double height = 20;
 	private boolean dispose = false;	
 	
 	public TorchSprite(double minX, double minY, double maxX, double maxY, boolean visible) {
