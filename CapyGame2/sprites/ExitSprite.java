@@ -92,7 +92,14 @@ public class ExitSprite implements DisplayableSprite {
 
 
 	public void update(Universe universe, KeyboardInput keyboard, long actual_delta_time) {
-			
+			if (KJASprite.scoreDisplay >= 300) {
+				try {
+					image = ImageIO.read(new File("res/KJA/door_open.png"));
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 
 }

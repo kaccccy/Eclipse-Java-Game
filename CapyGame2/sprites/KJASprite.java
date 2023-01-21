@@ -32,7 +32,8 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	private int stillFrames = 20;
 
 	private String direction = "";
-	static boolean keyPickedUp = true;
+	static boolean keyPickUpDisplay = false;
+	static boolean canExitDisplay = false;
 
 	public KJASprite(double centerX, double centerY) {
 
@@ -240,13 +241,16 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 			this.centerY += deltaY;
 		}
 		checkCoversCoin(keyboard, universe.getSprites(), deltaX, deltaY);
+		checkInExit(universe.getSprites(), deltaX, deltaY);
+		
+		
 		/*
 		if (checkProximity == false) {
 			proximityMessage = "";
 		}
 
 
-		checkInExit(universe.getSprites(), deltaX, deltaY);
+		
 		checkProximity(universe.getSprites());
 		 */
 	}
@@ -308,21 +312,18 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	}
 
 	private void checkCoversCoin(KeyboardInput keyboard, ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
-
+		keyPickUpDisplay = false;
+		
 		for (DisplayableSprite sprite : sprites) {
 			if (sprite instanceof CoinSprite) {				
 				if (CollisionDetection.overlaps(this, sprite)) {
-					keyPickedUp = true;
+					keyPickUpDisplay = true;
 					if (keyboard.keyDownOnce(32)) {
-						keyPickedUp = false;
+						keyPickUpDisplay = false;
 						sprite.setDispose(true);
 						score += 50;
-
 						break;					
 					}
-				}
-				else {
-					keyPickedUp = false;
 				}
 			}
 		}		
@@ -330,11 +331,15 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	}
 
 	private void checkInExit(ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
+		canExitDisplay = false;
 		for (DisplayableSprite sprite : sprites) {
 			if (sprite instanceof ExitSprite) {				
-				if (CollisionDetection.overlaps(this, sprite) && score >= 1000) {
+				if (CollisionDetection.overlaps(this, sprite)) {
+					canExitDisplay = true;
+					if (score >= 300) {
 					isAtExit = true;
-					break;					
+					break;			
+					}
 				}
 			}
 		}

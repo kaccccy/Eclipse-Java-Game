@@ -133,11 +133,13 @@ public class AnimationFrame extends JFrame {
 		getContentPane().setComponentZOrder(lblTop, 0); 
 
 
-		lblPickup = new JLabel("Press SPACE to pick up");
+		lblPickup = new JLabel("");
 		lblPickup.setForeground(Color.WHITE);
 		Font retroPause = retro.deriveFont(25.0f);				
 		lblPickup.setFont(retroPause);
 		lblPickup.setBounds(275, 450, 400, 100);
+		getContentPane().add(lblPickup);
+		getContentPane().setComponentZOrder(lblPickup, 0);
 
 	}
 
@@ -190,7 +192,7 @@ public class AnimationFrame extends JFrame {
 			this.logicalCenterY = universe.getYCenter();
 
 			//pickup
-			
+
 
 
 			// main game loop
@@ -254,6 +256,15 @@ public class AnimationFrame extends JFrame {
 
 		this.lblTop.setText(String.format("Time: %4.3f, Score: %d", elapsed_time / 1000.0, KJASprite.scoreDisplay));
 
+		if (KJASprite.keyPickUpDisplay == true) {
+			lblPickup.setText("SPACE to pick up");
+		}
+		else if (KJASprite.canExitDisplay == true) {
+				lblPickup.setText("You need more keys");
+			}
+		else {
+			lblPickup.setText("");
+		}
 	}
 
 	private void updateTime() {
@@ -294,14 +305,6 @@ public class AnimationFrame extends JFrame {
 		}
 		 */
 
-		if (KJASprite.keyPickedUp == true) {
-			getContentPane().add(lblPickup);
-			getContentPane().setComponentZOrder(lblPickup, 0);
-		}
-		else {
-			getContentPane().remove(lblPickup);
-		}
-		
 		if (keyboard.keyDownOnce(27)) {
 
 			if (isPaused == false) {

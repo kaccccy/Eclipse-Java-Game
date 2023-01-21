@@ -1,3 +1,1 @@
-add objects in maze
-add way to show how to use interact button
-make map actually look good
+DONE
