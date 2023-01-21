@@ -1,9 +1,3 @@
-add yellow grass path
 add objects in maze
-add point system
-add interact button
-add randomization to objects
-add control screen in title menu
-add some mazes 
-add win condition
+add way to show how to use interact button
 make map actually look good

@@ -11,8 +11,11 @@ public class TorchSprite implements DisplayableSprite {
 	private double centerX = 0;
 	private double centerY = 0;
 	private double width = 8;
-	private double height = 20;
+	private double height = 21;
 	private boolean dispose = false;	
+	
+	private int idleFrame = 0;
+	private int stillFrames = 20;
 	
 	public TorchSprite(double minX, double minY, double maxX, double maxY, boolean visible) {
 		
@@ -90,9 +93,29 @@ public class TorchSprite implements DisplayableSprite {
 	}
 
 	public void update(Universe universe, KeyboardInput keyboard, long actual_delta_time) {
-			
+		/*setIdleFrame(idleFrame + 1);
+		if (idleFrame >= stillFrames) {
+			idleFrame = 1;
+		}
+		getIdleImage(); */
 	}
-
+	
+	public int getStillFrames() {
+		return stillFrames; 
+	}
+	
+	public void setIdleFrame(int frame) {
+		this.idleFrame = frame;
+	}
+	
+	public void getIdleImage() {
+			try {
+				image = ImageIO.read(new File("res/torches/torch_" + idleFrame + ".png"));
+			}
+			catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
 }
 
 

@@ -84,10 +84,10 @@ public class KJABackground implements Background {
 			image = sand;
 		}
 		else if (map[row][col] == 4) {
-			image = grass; // FOR TREE BGS TO WORK
+			image = grass; // FOR TREE TO WORK
 		}
 		else if (map[row][col] == 5) {
-			image = grass; // FOR SHRUB BGS TO WORK
+			image = grass; // FOR SHRUB TO WORK
 		}
 		else if (map[row][col] == 6) {
 			image = dungeonFloor; 
@@ -96,7 +96,13 @@ public class KJABackground implements Background {
 			image = dungeonWall; 
 		}
 		else if (map[row][col] == 8) {
-			image = grass; // FOR SHRUB TORCHES TO WORK
+			image = grass; // FOR TORCHES TO WORK
+		}
+		else if (map[row][col] == 9) {
+			image = dungeonFloor; //FOR DOOR TO WORK
+		}
+		else if (map[row][col] == 10) {
+			image = dungeonFloor; //FOR KEY TO WORK
 		}
 		else {
 			image = null;
@@ -159,6 +165,12 @@ public class KJABackground implements Background {
 				}
 				if (map[row][col] == 8) {
 					objects.add(new TorchSprite(col * TILE_WIDTH, row * TILE_HEIGHT, (col + .5) * TILE_WIDTH, (row + 1.25) * TILE_HEIGHT, true));
+				}
+				if (map[row][col] == 9) {
+					objects.add(new ExitSprite(col * TILE_WIDTH, row * TILE_HEIGHT, (col + 1) * TILE_WIDTH, (row + 1) * TILE_HEIGHT, true));
+				}
+				if (map[row][col] == 10) {
+					objects.add(new CoinSprite((col + .25) * TILE_WIDTH, (row + .25) * TILE_HEIGHT, (col + .75) * TILE_WIDTH, (row + .5) * TILE_HEIGHT, true));
 				}
 			}
 		}

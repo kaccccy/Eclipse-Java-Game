@@ -41,7 +41,7 @@ public class AnimationFrame extends JFrame {
 	private JButton btnPauseRun;
 	private JLabel lblTop;
 	private JLabel lblPause;
-	private JLabel lblBottom;
+	private JLabel lblPickup;
 	public static Font retro;
 	private static boolean stop = false;
 
@@ -64,6 +64,7 @@ public class AnimationFrame extends JFrame {
 	private Background background = null;
 	boolean centreOnPlayer = false;
 	int universeLevel = 0;
+
 
 
 	public AnimationFrame(Animation animation)
@@ -123,27 +124,21 @@ public class AnimationFrame extends JFrame {
 
 		setTitle("The Quest for Stuff"); //TODO make a good title for the game
 		setResizable(false);
-		/*
-		btnPauseRun = new JButton("||");
-		btnPauseRun.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				btnPauseRun_mouseClicked(arg0);
-			}
-		});
 
-		btnPauseRun.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnPauseRun.setBounds(SCREEN_WIDTH - 64, 20, 48, 32);
-		btnPauseRun.setFocusable(false);
-		getContentPane().add(btnPauseRun);
-		getContentPane().setComponentZOrder(btnPauseRun, 0);
-		 */
 		lblTop = new JLabel("Time: ");
 		lblTop.setForeground(Color.WHITE);
 		lblTop.setFont(retro);
 		lblTop.setBounds(16, 22, SCREEN_WIDTH - 16, 30);
 		getContentPane().add(lblTop);
-		getContentPane().setComponentZOrder(lblTop, 0);
+		getContentPane().setComponentZOrder(lblTop, 0); 
+
+
+		lblPickup = new JLabel("Press SPACE to pick up");
+		lblPickup.setForeground(Color.WHITE);
+		Font retroPause = retro.deriveFont(25.0f);				
+		lblPickup.setFont(retroPause);
+		lblPickup.setBounds(275, 450, 400, 100);
+
 	}
 
 	public void start()
@@ -169,8 +164,8 @@ public class AnimationFrame extends JFrame {
 		//when title screen has been closed, execution will resume here.
 		int x = titleFrame.getX();
 		int y = titleFrame.getY();
-//		titleFrame = null;
-		
+		//		titleFrame = null;
+
 		if (titleFrame.isVisible == false) {
 			this.setLocation(x, y);
 			this.setVisible(true);					
@@ -194,7 +189,8 @@ public class AnimationFrame extends JFrame {
 			this.logicalCenterX = universe.getXCenter();
 			this.logicalCenterY = universe.getYCenter();
 
-			//Main Menu
+			//pickup
+			
 
 
 			// main game loop
@@ -256,7 +252,7 @@ public class AnimationFrame extends JFrame {
 
 	private void updateControls() {
 
-		this.lblTop.setText(String.format("Time: %4.3f", elapsed_time / 1000.0));
+		this.lblTop.setText(String.format("Time: %4.3f, Score: %d", elapsed_time / 1000.0, KJASprite.scoreDisplay));
 
 	}
 
@@ -268,18 +264,7 @@ public class AnimationFrame extends JFrame {
 		elapsed_time += actual_delta_time;
 
 	}
-	
-	protected void btnPauseRun_mouseClicked(MouseEvent arg0) {
-		if (isPaused) {
-			isPaused = false;
-			this.btnPauseRun.setText("||");
-		}
-		else {
-			isPaused = true;
-			this.btnPauseRun.setText(">");
-		}
-	}
-	 
+
 	private void handleKeyboardInput() {
 		/*
 		if (keyboard.keyDown(80) && ! isPaused) {
@@ -309,6 +294,14 @@ public class AnimationFrame extends JFrame {
 		}
 		 */
 
+		if (KJASprite.keyPickedUp == true) {
+			getContentPane().add(lblPickup);
+			getContentPane().setComponentZOrder(lblPickup, 0);
+		}
+		else {
+			getContentPane().remove(lblPickup);
+		}
+		
 		if (keyboard.keyDownOnce(27)) {
 
 			if (isPaused == false) {

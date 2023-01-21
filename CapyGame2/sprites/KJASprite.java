@@ -21,6 +21,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	private final double PROXIMITY = 100;
 
 	private long score = 0;
+	static long scoreDisplay = 0;
 	private boolean isAtExit = false;
 	private String proximityMessage = "";
 
@@ -31,7 +32,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	private int stillFrames = 20;
 
 	private String direction = "";
-
+	static boolean keyPickedUp = true;
 
 	public KJASprite(double centerX, double centerY) {
 
@@ -142,6 +143,8 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		double velocityX = 0;
 		double velocityY = 0;
 
+		scoreDisplay = score;
+
 		//LEFT
 		if (AnimationFrame.getIsPaused() == false) {
 			if (keyboard.keyDown(65)) {
@@ -151,7 +154,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 				}
 				else {
 					velocityX -= VELOCITY;
-					
+
 				}
 				direction = "left";
 				setAnimationFrame(animationFrame + 1);
@@ -236,12 +239,13 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		if (collidingBarrierY == false) {
 			this.centerY += deltaY;
 		}
+		checkCoversCoin(keyboard, universe.getSprites(), deltaX, deltaY);
 		/*
 		if (checkProximity == false) {
 			proximityMessage = "";
 		}
 
-		checkCoversCoin(universe.getSprites(), deltaX, deltaY);
+
 		checkInExit(universe.getSprites(), deltaX, deltaY);
 		checkProximity(universe.getSprites());
 		 */
@@ -302,16 +306,23 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		}
 
 	}
-	/*
-	private void checkCoversCoin(ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
+
+	private void checkCoversCoin(KeyboardInput keyboard, ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
 
 		for (DisplayableSprite sprite : sprites) {
 			if (sprite instanceof CoinSprite) {				
 				if (CollisionDetection.overlaps(this, sprite)) {
-					sprite.setDispose(true);
-					score += 100;
+					keyPickedUp = true;
+					if (keyboard.keyDownOnce(32)) {
+						keyPickedUp = false;
+						sprite.setDispose(true);
+						score += 50;
 
-					break;					
+						break;					
+					}
+				}
+				else {
+					keyPickedUp = false;
 				}
 			}
 		}		
@@ -321,7 +332,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	private void checkInExit(ArrayList<DisplayableSprite> sprites, double deltaX, double deltaY) {
 		for (DisplayableSprite sprite : sprites) {
 			if (sprite instanceof ExitSprite) {				
-				if (CollisionDetection.inside(this, sprite) && score >= 1000) {
+				if (CollisionDetection.overlaps(this, sprite) && score >= 1000) {
 					isAtExit = true;
 					break;					
 				}
@@ -329,7 +340,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 		}
 
 	}
-
+	/*
 	private boolean checkProximity(ArrayList<DisplayableSprite> sprites) {
 		boolean inProximity = false;
 		for (DisplayableSprite sprite : sprites) {
@@ -385,6 +396,7 @@ public class KJASprite implements DisplayableSprite, MovableSprite, CollidingSpr
 	public int getStillFrames() {
 		return stillFrames; 
 	}
+
 	public void setIdleFrame(int frame) {
 		this.idleFrame = frame;
 	}
